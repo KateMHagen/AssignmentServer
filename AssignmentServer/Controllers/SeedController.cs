@@ -93,6 +93,9 @@ namespace AssignmentServer.Controllers
                     Console.WriteLine($"Not found publisher for {record.title}");
                     continue;
                 }
+                Console.WriteLine($"Importing book: {record.title}, Description: {record.description}");
+                Console.WriteLine($"Description length: {record.description?.Length} | Title: {record.title}");
+
 
                 // Skip if pages is invalid (contains anything other than numbers)
                 if (string.IsNullOrWhiteSpace(record.pages) || !int.TryParse(record.pages, out int parsedPages))
@@ -116,20 +119,27 @@ namespace AssignmentServer.Controllers
                     }
                 }
 
-                string? description = string.IsNullOrWhiteSpace(record.description) ? null : record.description;
 
-                // Add book to the context
-                Book book = new()
+                var existing = await context.Books.FirstOrDefaultAsync(b => b.Title == record.title);
+                if (existing != null)
                 {
-                    Title = record.title,
-                    Author = record.author,
-                    Pages = parsedPages,  
-                    Rating = parsedRating,
-                    PublisherId = publisher.Id
-                };
+                    existing.Description = record.description;
+                    // update other fields if you want
+                }
+                else
+                {
+                    Book book = new()
+                    {
+                        Title = record.title,
+                        Author = record.author,
+                        Pages = parsedPages,
+                        Rating = parsedRating,
+                        Description = record.description,
+                        PublisherId = publisher.Id
+                    };
+                    context.Books.Add(book);
+                }
 
-                context.Books.Add(book);
-                bookCount++;
             }
 
             await context.SaveChangesAsync();

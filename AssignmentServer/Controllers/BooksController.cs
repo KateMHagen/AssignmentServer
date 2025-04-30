@@ -32,7 +32,9 @@ namespace AssignmentServer.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Book>> GetBook(int id)
         {
-            var book = await _context.Books.FindAsync(id);
+            var book = await _context.Books
+                .Include(b => b.Publisher)
+                .FirstOrDefaultAsync(b => b.Id == id);
 
             if (book == null)
             {

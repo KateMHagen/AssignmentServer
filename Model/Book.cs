@@ -19,7 +19,7 @@ namespace AssignmentServer.Model
         public string Author { get; set; } = null!;
 
         [Column("description")]
-        [MaxLength(1000)] 
+        [MaxLength(5000)]
         public string? Description { get; set; } = null!;
 
 

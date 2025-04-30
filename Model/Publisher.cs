@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 
 namespace AssignmentServer.Model
@@ -16,6 +17,7 @@ namespace AssignmentServer.Model
         [StringLength(255)]
         public string Name { get; set; } = null!;
 
+        [JsonIgnore]
         [InverseProperty("Publisher")] // Links to Book.Publisher navigation property
         public virtual ICollection<Book> Books { get; set; } = new List<Book>();
     }

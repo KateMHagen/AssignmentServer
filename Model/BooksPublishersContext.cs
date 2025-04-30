@@ -56,8 +56,9 @@ public partial class BooksPublishersContext : IdentityDbContext<BooksPublishersU
                 .HasMaxLength(100)
                 .HasColumnName("author");
             entity.Property(e => e.Description)
-              .HasMaxLength(1000)
-              .HasColumnName("description");
+                .HasMaxLength(5000)
+                .HasColumnName("description");
+
             entity.Property(e => e.Pages).HasColumnName("pages");
        
 
