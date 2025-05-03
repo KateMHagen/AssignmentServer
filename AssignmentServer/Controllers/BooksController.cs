@@ -25,7 +25,9 @@ namespace AssignmentServer.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
         {
-            return await _context.Books.ToListAsync();
+            return await _context.Books
+                .Include(b => b.Publisher)
+                .ToListAsync();
         }
 
         // GET: api/Books/5

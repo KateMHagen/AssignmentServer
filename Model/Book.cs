@@ -34,6 +34,6 @@ namespace AssignmentServer.Model
 
         [ForeignKey("PublisherId")]
         [InverseProperty("Books")]
-        public virtual Publisher Publisher { get; set; } = null!;
+        public virtual Publisher? Publisher { get; set; } = null!;
     }
 }
