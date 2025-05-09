@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AssignmentServer.Model
+namespace Model
 {
     [Table("Book")]
     public partial class Book

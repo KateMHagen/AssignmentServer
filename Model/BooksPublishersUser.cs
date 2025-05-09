@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace AssignmentServer
+namespace Model
 {
     public class BooksPublishersUser : IdentityUser
     {

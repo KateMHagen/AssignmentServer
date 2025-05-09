@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using AssignmentServer.Model;
 using Model;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AssignmentServer.Controllers
 {
@@ -29,6 +29,7 @@ namespace AssignmentServer.Controllers
         }
 
         // GET: api/Publishers/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<Publisher>> GetPublisher(int id)
         {

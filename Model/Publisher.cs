@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 
-namespace AssignmentServer.Model
+namespace Model
 {
     [Table("Publisher")]
     public partial class Publisher

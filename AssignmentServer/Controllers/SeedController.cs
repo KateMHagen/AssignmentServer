@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Model;
 using AssignmentServer.Data;
-using AssignmentServer.Model;
 
 namespace AssignmentServer.Controllers
 {
@@ -18,18 +17,30 @@ namespace AssignmentServer.Controllers
         string _pathName = Path.Combine(environment.ContentRootPath, "Data/books.csv");
 
         [HttpPost("Users")]
-        public async Task ImportUsersAsync()
-        {
-            BooksPublishersUser user = new()
-            {
-                UserName = "user",
-                Email = "user@email.com",
-                SecurityStamp = Guid.NewGuid().ToString()
-            };
+public async Task<IActionResult> ImportUsersAsync()
+{
+    var existingUser = await userManager.FindByNameAsync("user");
+    if (existingUser != null)
+        return Ok("User already exists");
 
-            IdentityResult x = await userManager.CreateAsync(user, "Password123!");
-            int y = await context.SaveChangesAsync();
-        }
+    BooksPublishersUser user = new()
+    {
+        UserName = "user",
+        Email = "user@email.com",
+        SecurityStamp = Guid.NewGuid().ToString()
+    };
+
+    var result = await userManager.CreateAsync(user, "Password123!");
+
+    if (!result.Succeeded)
+    {
+        // Return reasons to Swagger response
+        return BadRequest(result.Errors.Select(e => e.Description));
+    }
+
+    return Ok("User created");
+}
+
 
         [HttpPost("Publishers")]
         public async Task<ActionResult> ImportPublishersAsync()
@@ -96,8 +107,6 @@ namespace AssignmentServer.Controllers
                 Console.WriteLine($"Importing book: {record.title}, Description: {record.description}");
                 Console.WriteLine($"Description length: {record.description?.Length} | Title: {record.title}");
 
-
-                // Skip if pages is invalid (contains anything other than numbers)
                 if (string.IsNullOrWhiteSpace(record.pages) || !int.TryParse(record.pages, out int parsedPages))
                 {
                     Console.WriteLine($"Skipping book '{record.title}' with invalid pages value '{record.pages}'");

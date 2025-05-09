@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using AssignmentServer.Model;
 using Model;
+using Microsoft.AspNetCore.Authorization;
+using AssignmentServer.Dtos;
 
 namespace AssignmentServer.Controllers
 {
@@ -23,14 +24,20 @@ namespace AssignmentServer.Controllers
 
         // GET: api/Books
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
+        public async Task<ActionResult<ApiResult<Book>>> GetBooks(int pageIndex = 0, int pageSize = 10)
         {
-            return await _context.Books
-                .Include(b => b.Publisher)
-                .ToListAsync();
+
+            return await ApiResult<Book>.CreateAsync(
+                _context.Books
+                    .Include(b => b.Publisher)
+                    .AsNoTracking(),
+                pageIndex,
+                pageSize
+            );
         }
 
         // GET: api/Books/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<Book>> GetBook(int id)
         {
