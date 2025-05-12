@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace Model
 {
@@ -27,6 +28,7 @@ namespace Model
         public int Pages { get; set; }
 
         [Column("rating")]
+        [Precision(20, 4)]
         public decimal? Rating { get; set; }
 
         [Column("publisher_id")]

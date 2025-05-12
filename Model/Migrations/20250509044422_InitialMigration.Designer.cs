@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Model;
 
@@ -11,9 +12,11 @@ using Model;
 namespace Model.Migrations
 {
     [DbContext(typeof(BooksPublishersContext))]
-    partial class BooksPublishersContextModelSnapshot : ModelSnapshot
+    [Migration("20250509044422_InitialMigration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -184,8 +187,7 @@ namespace Model.Migrations
                         .HasColumnName("publisher_id");
 
                     b.Property<decimal?>("Rating")
-                        .HasPrecision(20, 4)
-                        .HasColumnType("decimal(20,4)")
+                        .HasColumnType("decimal(18,2)")
                         .HasColumnName("rating");
 
                     b.Property<string>("Title")
@@ -277,8 +279,8 @@ namespace Model.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
                         .HasColumnName("name");
 
                     b.HasKey("Id");

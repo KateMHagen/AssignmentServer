@@ -11,13 +11,7 @@ namespace Model.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "published_date",
-                table: "Book",
-                type: "datetime2",
-                nullable: true,
-                oldClrType: typeof(int),
-                oldType: "int");
+      
 
             migrationBuilder.AddColumn<string>(
                 name: "description",
@@ -35,15 +29,7 @@ namespace Model.Migrations
                 name: "description",
                 table: "Book");
 
-            migrationBuilder.AlterColumn<int>(
-                name: "published_date",
-                table: "Book",
-                type: "int",
-                nullable: false,
-                defaultValue: 0,
-                oldClrType: typeof(DateTime),
-                oldType: "datetime2",
-                oldNullable: true);
+
         }
     }
 }

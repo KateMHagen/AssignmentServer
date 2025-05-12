@@ -14,7 +14,7 @@ namespace Model
         public int Id { get; set; }
 
         [Column("name")]
-        [StringLength(255)]
+        [StringLength(500)]
         public string Name { get; set; } = null!;
 
         [JsonIgnore]

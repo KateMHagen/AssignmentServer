@@ -17,29 +17,29 @@ namespace AssignmentServer.Controllers
         string _pathName = Path.Combine(environment.ContentRootPath, "Data/books.csv");
 
         [HttpPost("Users")]
-public async Task<IActionResult> ImportUsersAsync()
-{
-    var existingUser = await userManager.FindByNameAsync("user");
-    if (existingUser != null)
-        return Ok("User already exists");
+        public async Task<IActionResult> ImportUsersAsync()
+        {
+            var existingUser = await userManager.FindByNameAsync("user");
+            if (existingUser != null)
+                return Ok("User already exists");
 
-    BooksPublishersUser user = new()
-    {
-        UserName = "user",
-        Email = "user@email.com",
-        SecurityStamp = Guid.NewGuid().ToString()
-    };
+            BooksPublishersUser user = new()
+            {
+                UserName = "user",
+                Email = "user@email.com",
+                SecurityStamp = Guid.NewGuid().ToString()
+            };
 
-    var result = await userManager.CreateAsync(user, "Password123!");
+            var result = await userManager.CreateAsync(user, "Password123!");
 
-    if (!result.Succeeded)
-    {
-        // Return reasons to Swagger response
-        return BadRequest(result.Errors.Select(e => e.Description));
-    }
+            if (!result.Succeeded)
+            {
+                // Return reasons to Swagger response
+                return BadRequest(result.Errors.Select(e => e.Description));
+            }
 
-    return Ok("User created");
-}
+            return Ok("User created");
+        }
 
 
         [HttpPost("Publishers")]
@@ -91,10 +91,7 @@ public async Task<IActionResult> ImportUsersAsync()
             int bookCount = 0;
 
             using StreamReader reader = new(_pathName);
-            using CsvReader csv = new(reader, config)
-            {
-             
-            };
+            using CsvReader csv = new(reader, config);
 
             IEnumerable<BooksDto> records = csv.GetRecords<BooksDto>();
             foreach (BooksDto record in records)
@@ -133,7 +130,7 @@ public async Task<IActionResult> ImportUsersAsync()
                 if (existing != null)
                 {
                     existing.Description = record.description;
-                    // update other fields if you want
+                    existing.Author = record.author.Length > 555 ? record.author.Substring(0, 555) : record.author;
                 }
                 else
                 {
@@ -147,11 +144,13 @@ public async Task<IActionResult> ImportUsersAsync()
                         PublisherId = publisher.Id
                     };
                     context.Books.Add(book);
+                    bookCount++;
                 }
 
             }
 
             await context.SaveChangesAsync();
+            Console.WriteLine($"Books imported: {bookCount}");
             return new JsonResult(bookCount);
         }
     }

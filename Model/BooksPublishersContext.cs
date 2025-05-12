@@ -71,9 +71,13 @@ public partial class BooksPublishersContext : IdentityDbContext<BooksPublishersU
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Name)
-                .HasMaxLength(100)
+                .HasMaxLength(500)
                 .HasColumnName("name");
         });
+
+        modelBuilder.Entity<Book>()
+        .Property(b => b.Rating)
+        .HasPrecision(20, 4);
 
         OnModelCreatingPartial(modelBuilder);
     }

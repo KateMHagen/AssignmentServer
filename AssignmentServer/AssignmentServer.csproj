@@ -23,5 +23,13 @@
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj" />
   </ItemGroup>
+	<ItemGroup>
+		<None Update="..\Model\appsettings.json">
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+	<PropertyGroup>
+		<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+	</PropertyGroup>
 
 </Project>
